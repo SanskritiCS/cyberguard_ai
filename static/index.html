@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CyberGuard AI — Security Command Center</title>
+    <meta name="description" content="AI-powered cybersecurity toolkit. Detect, explain, warn, and protect against phishing, malware, deepfakes, and social engineering.">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash" class="splash-screen active">
+        <div class="splash-content">
+            <div class="shield-logo"><i data-lucide="shield"></i></div>
+            <h1>CYBERGUARD AI</h1>
+            <p>Your Personal AI Cybersecurity Assistant</p>
+        </div>
+        <div class="particles"></div>
+    </div>
+
+    <div id="app" class="app-container hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><i data-lucide="shield-check"></i></div>
+                <div><h2>CyberGuard AI</h2><p>Command Center</p></div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="section-label">Overview</div>
+                <button class="nav-btn active" onclick="navigate('dashboard', this)"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+                
+                <div class="section-label">Threat Scanners</div>
+                <button class="nav-btn" onclick="navigate('url', this)"><i data-lucide="link"></i> URL Scanner</button>
+                <button class="nav-btn" onclick="navigate('qr', this)"><i data-lucide="qr-code"></i> QR Scanner</button>
+                <button class="nav-btn" onclick="navigate('email', this)"><i data-lucide="mail"></i> Email Analyzer</button>
+                <button class="nav-btn" onclick="navigate('sms', this)"><i data-lucide="message-square"></i> SMS Detector</button>
+                <button class="nav-btn" onclick="navigate('voice', this)"><i data-lucide="mic"></i> Voice Detector</button>
+                <button class="nav-btn" onclick="navigate('usb', this)"><i data-lucide="usb"></i> USB Scanner</button>
+                <button class="nav-btn" onclick="navigate('image', this)"><i data-lucide="image"></i> Image Authenticator</button>
+                
+                <div class="section-label">Monitoring</div>
+                <button class="nav-btn" onclick="navigate('ids', this)"><i data-lucide="activity"></i> Network IDS</button>
+                <button class="nav-btn" onclick="navigate('history', this)"><i data-lucide="clock"></i> History</button>
+                <button class="nav-btn" onclick="navigate('settings', this)"><i data-lucide="settings"></i> Settings</button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-card">
+                    <h3>System Status</h3>
+                    <p class="text-green fw-bold">🟢 PROTECTED</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content-area">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <h1 id="page-title">Security Command Center</h1>
+                    <p id="page-subtitle">AI Powered Cybersecurity Monitoring</p>
+                </div>
+                <div class="topbar-actions">
+                    <button class="icon-btn" onclick="toggleAI()" title="AI Assistant"><i data-lucide="bot"></i></button>
+                    <button class="icon-btn" onclick="toggleDemoMode()" title="Toggle Demo Mode"><i data-lucide="monitor-play" id="demo-icon"></i></button>
+                    <div class="profile-pill">
+                        <img src="https://ui-avatars.com/api/?name=CG&background=3B82F6&color=fff&size=64" alt="Profile">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ============ DASHBOARD ============ -->
+            <div id="page-dashboard" class="page active-page">
+                <div class="hero-card">
+                    <div class="hero-content">
+                        <h2>YOU ARE PROTECTED</h2>
+                        <div class="flex items-center gap-6 mt-4">
+                            <div class="score-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart green" id="hero-chart">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" id="hero-circle-path"/>
+                                </svg>
+                                <div class="score-text">
+                                    <span class="score-val" id="global-score">0</span>
+                                    <span class="score-label">/ 100</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Protection Status: <span class="text-green fw-bold">ACTIVE</span></p>
+                                <div class="stats-row mt-3">
+                                    <div class="stat"><span id="stat-blocked">17</span> Threats Blocked</div>
+                                    <div class="stat"><span id="stat-scans">42</span> Scans Completed</div>
+                                    <div class="stat"><span>99.9%</span> Uptime</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid mt-6">
+                    <div class="card p-5">
+                        <h3 class="mb-4 fw-semibold">Quick Scan</h3>
+                        <div class="quick-scan-grid">
+                            <button class="qs-btn" onclick="navigate('url')"><i data-lucide="link"></i><span>URL Scanner</span></button>
+                            <button class="qs-btn" onclick="navigate('qr')"><i data-lucide="qr-code"></i><span>QR Scanner</span></button>
+                            <button class="qs-btn" onclick="navigate('email')"><i data-lucide="mail"></i><span>Email</span></button>
+                            <button class="qs-btn" onclick="navigate('sms')"><i data-lucide="message-square"></i><span>SMS</span></button>
+                            <button class="qs-btn" onclick="navigate('usb')"><i data-lucide="usb"></i><span>USB</span></button>
+                            <button class="qs-btn" onclick="navigate('image')"><i data-lucide="image"></i><span>Image</span></button>
+                        </div>
+                    </div>
+                    <div class="card p-5 relative">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="fw-semibold">Live Threat Monitor</h3>
+                            <span class="live-dot pulse-red">LIVE</span>
+                        </div>
+                        <div class="threat-feed" id="live-threat-feed"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ URL SCANNER ============ -->
+            <div id="page-url" class="page">
+                <div class="card mb-6">
+                    <h3 class="mb-2 fw-semibold">Analyze a Suspicious URL</h3>
+                    <p class="text-muted text-sm mb-4">Paste any URL to check for phishing, malware, and brand impersonation.</p>
+                    <div class="input-group mb-4">
+                        <i data-lucide="link"></i>
+                        <input type="text" id="url-input" placeholder="https://example.com/suspicious-path">
+                        <button class="btn btn-primary" onclick="performScan('url')">SCAN</button>
+                    </div>
+                    <button class="btn btn-text text-sm" onclick="document.getElementById('url-input').value='http://secure-bank-login-example.com/verify?user=reset'">Try Demo Threat</button>
+                </div>
+                <div id="url-results-container"></div>
+            </div>
+
+            <!-- ============ QR SCANNER ============ -->
+            <div id="page-qr" class="page">
+                <div class="card mb-6">
+                    <h3 class="mb-2 fw-semibold">Scan QR Code</h3>
+                    <p class="text-muted text-sm mb-4">Use your camera or upload a QR code image to decode and analyze the destination.</p>
+                    <div class="camera-frame mb-4" id="qr-camera-frame">
+                        <video id="qr-video" playsinline class="hidden w-full h-full" style="object-fit:cover;border-radius:var(--radius-xl)"></video>
+                        <div class="scanning-line hidden" id="qr-scan-line"></div>
+                        <div class="camera-placeholder" id="qr-placeholder">
+                            <i data-lucide="camera" style="width:44px;height:44px" class="text-muted mb-4"></i>
+                            <p class="text-muted mb-4">Camera Access Required</p>
+                            <button class="btn btn-secondary" onclick="startQRCamera()">Enable Camera</button>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p class="text-muted text-sm mb-2">Or upload an image</p>
+                        <input type="file" id="qr-file" accept="image/*" class="hidden" onchange="uploadQR(this)">
+                        <label for="qr-file" class="btn btn-outline cursor-pointer"><i data-lucide="upload" class="mr-2"></i> Upload QR Image</label>
+                    </div>
+                </div>
+                <div id="qr-results-container"></div>
+            </div>
+
+            <!-- ============ EMAIL ANALYZER ============ -->
+            <div id="page-email" class="page">
+                <div class="card mb-6">
+                    <h3 class="mb-2 fw-semibold">Analyze Suspicious Email</h3>
+                    <p class="text-muted text-sm mb-4">Paste the sender, subject, and body of a suspicious email for AI-powered phishing detection.</p>
+                    <input type="text" id="email-sender" placeholder="Sender (e.g., support@paypal.com)" class="input-field mb-3 w-full">
+                    <input type="text" id="email-subject" placeholder="Subject line" class="input-field mb-3 w-full">
+                    <textarea id="email-body" rows="5" placeholder="Paste the email body here..." class="input-field mb-4 w-full"></textarea>
+                    <div class="flex items-center gap-3 mb-4">
+                        <input type="file" id="email-file" class="hidden" onchange="document.getElementById('email-file-name').innerText = this.files[0].name">
+                        <label for="email-file" class="btn btn-outline cursor-pointer"><i data-lucide="paperclip" class="mr-2"></i> Attach File</label>
+                        <span id="email-file-name" class="text-muted text-sm"></span>
+                    </div>
+                    <button class="btn btn-primary w-full justify-center" onclick="performScan('email')">ANALYZE EMAIL</button>
+                </div>
+                <div id="email-results-container"></div>
+            </div>
+
+            <!-- ============ SMS DETECTOR ============ -->
+            <div id="page-sms" class="page">
+                <div class="card mb-6">
+                    <h3 class="mb-2 fw-semibold">Detect SMS Scams</h3>
+                    <p class="text-muted text-sm mb-4">Paste a suspicious SMS to check for smishing, social engineering, and fraud patterns.</p>
+                    <textarea id="sms-body" rows="4" placeholder="Paste suspicious SMS here..." class="input-field mb-4 w-full"></textarea>
+                    <button class="btn btn-primary w-full justify-center" onclick="performScan('sms')">ANALYZE SMS</button>
+                </div>
+                <div id="sms-results-container"></div>
+            </div>
+
+            <!-- ============ VOICE DETECTOR ============ -->
+            <div id="page-voice" class="page">
+                <div class="card mb-6 text-center py-10">
+                    <i data-lucide="mic" style="width:48px;height:48px" class="text-cyan mb-4 mx-auto" style="display:block"></i>
+                    <h3 class="mb-2 fw-semibold">Voice & Deepfake Detector</h3>
+                    <p class="text-muted text-sm mb-6">Upload an audio file to analyze for synthetic manipulation and AI-generated speech.</p>
+                    <div class="inline-block">
+                        <input type="file" id="voice-file" accept="audio/*" class="hidden" onchange="document.getElementById('voice-file-name').innerText = this.files[0].name">
+                        <label for="voice-file" class="btn btn-outline cursor-pointer"><i data-lucide="upload" class="mr-2"></i> Upload Audio File</label>
+                        <p id="voice-file-name" class="mt-2 text-muted text-sm"></p>
+                    </div>
+                    <button class="btn btn-primary mt-6 w-full justify-center" onclick="performScan('voice')">ANALYZE AUDIO</button>
+                </div>
+                <div id="voice-results-container"></div>
+            </div>
+
+            <!-- ============ USB SCANNER ============ -->
+            <div id="page-usb" class="page">
+                <div class="card mb-6">
+                    <h3 class="mb-2 fw-semibold">USB Threat Scanner</h3>
+                    <p class="text-muted text-sm mb-4">Upload a file from a USB device to scan for malware, autorun exploits, hidden scripts, and disguised executables.</p>
+                    <div class="drop-zone" id="usb-drop-zone" onclick="document.getElementById('usb-file').click()"
+                         ondragover="event.preventDefault(); this.classList.add('drag-over')"
+                         ondragleave="this.classList.remove('drag-over')"
+                         ondrop="event.preventDefault(); this.classList.remove('drag-over'); handleUSBDrop(event)">
+                        <i data-lucide="usb" style="width:44px;height:44px;display:block;margin:0 auto"></i>
+                        <p class="mt-3 fw-medium">Drag & drop a file here</p>
+                        <p class="text-sm mt-1">or click to browse</p>
+                        <input type="file" id="usb-file" class="hidden" onchange="handleUSBFile(this)">
+                    </div>
+                    <p id="usb-file-name" class="mt-3 text-muted text-sm text-center"></p>
+                    <button class="btn btn-primary mt-4 w-full justify-center" onclick="performScan('usb')" id="usb-scan-btn" disabled>SCAN FILE</button>
+                </div>
+                <div id="usb-results-container"></div>
+            </div>
+
+            <!-- ============ IMAGE AUTHENTICATOR ============ -->
+            <div id="page-image" class="page">
+                <div class="card mb-6">
+                    <h3 class="mb-2 fw-semibold">Image Authenticity Scanner</h3>
+                    <p class="text-muted text-sm mb-4">Upload an image to check for AI generation, manipulation, EXIF metadata, and compression artifacts.</p>
+                    <div class="drop-zone" id="image-drop-zone" onclick="document.getElementById('image-file').click()"
+                         ondragover="event.preventDefault(); this.classList.add('drag-over')"
+                         ondragleave="this.classList.remove('drag-over')"
+                         ondrop="event.preventDefault(); this.classList.remove('drag-over'); handleImageDrop(event)">
+                        <i data-lucide="image" style="width:44px;height:44px;display:block;margin:0 auto"></i>
+                        <p class="mt-3 fw-medium">Drag & drop an image here</p>
+                        <p class="text-sm mt-1">Supports JPG, PNG, WebP</p>
+                        <input type="file" id="image-file" accept="image/*" class="hidden" onchange="handleImageFile(this)">
+                    </div>
+                    <img id="image-preview" class="image-preview hidden" alt="Preview">
+                    <p id="image-file-name" class="mt-2 text-muted text-sm text-center"></p>
+                    <button class="btn btn-primary mt-4 w-full justify-center" onclick="performScan('image')" id="image-scan-btn" disabled>ANALYZE IMAGE</button>
+                </div>
+                <div id="image-results-container"></div>
+            </div>
+
+            <!-- ============ NETWORK IDS ============ -->
+            <div id="page-ids" class="page">
+                <div class="card mb-6 flex justify-between items-center">
+                    <div>
+                        <h3 class="mb-1 fw-semibold">Network IDS Status: <span class="text-green">🟢 ACTIVE</span></h3>
+                        <p class="text-muted text-sm" id="ids-meta">Fetching status...</p>
+                    </div>
+                    <button class="btn btn-outline" onclick="fetchIDS()"><i data-lucide="refresh-cw" class="mr-2"></i> Refresh</button>
+                </div>
+                <div class="card" style="padding:0;overflow:hidden">
+                    <table class="data-table" id="ids-table">
+                        <thead><tr><th>Time</th><th>Source IP</th><th>Dest IP / Port</th><th>Threat</th><th>Severity</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============ HISTORY / SETTINGS ============ -->
+            <div id="page-history" class="page">
+                <div class="card text-center py-12">
+                    <i data-lucide="clock" style="width:48px;height:48px;display:block;margin:0 auto" class="text-blue mb-4"></i>
+                    <h3 class="fw-semibold">Scan History</h3>
+                    <p class="text-muted mt-2">No recent history available.</p>
+                </div>
+            </div>
+            <div id="page-settings" class="page">
+                <div class="card">
+                    <h3 class="mb-4 fw-semibold">Settings</h3>
+                    <p class="text-muted mb-6 text-sm">Manage protection and privacy preferences.</p>
+                    <div class="flex items-center justify-between p-4" style="border-bottom:1px solid rgba(255,255,255,0.06)">
+                        <span class="fw-medium">Real-time Protection</span><div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                    <div class="flex items-center justify-between p-4" style="border-bottom:1px solid rgba(255,255,255,0.06)">
+                        <span class="fw-medium">Demo Mode</span><div class="toggle" id="demo-toggle" onclick="toggleDemoMode(); this.classList.toggle('active')"></div>
+                    </div>
+                    <div class="flex items-center justify-between p-4">
+                        <span class="fw-medium">Data Collection for AI Training</span><div class="toggle" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating AI -->
+    <div id="ai-widget" class="ai-widget hidden">
+        <div class="ai-header">
+            <div class="flex items-center gap-2"><i data-lucide="bot" class="text-cyan"></i><span class="fw-bold">CyberGuard AI</span></div>
+            <button class="icon-btn-small" onclick="toggleAI()"><i data-lucide="x"></i></button>
+        </div>
+        <div class="ai-chat-body" id="ai-chat-history">
+            <div class="chat-bubble bot">Hello! I'm CyberGuard AI. Ask me anything about phishing, malware, passwords, or online safety.</div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="ai-input" placeholder="Ask a question..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+            <button class="icon-btn-small text-cyan" onclick="sendAIMessage()"><i data-lucide="send"></i></button>
+        </div>
+    </div>
+    <button class="floating-ai-btn" onclick="toggleAI()"><i data-lucide="bot"></i></button>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active" onclick="navigate('dashboard', this)"><i data-lucide="home"></i><span>Home</span></button>
+        <button class="nav-btn" onclick="navigate('url', this)"><i data-lucide="scan"></i><span>Scan</span></button>
+        <button class="nav-btn" onclick="navigate('qr', this)"><i data-lucide="qr-code"></i><span>QR</span></button>
+        <button class="nav-btn" onclick="toggleAI()"><i data-lucide="bot"></i><span>AI</span></button>
+        <button class="nav-btn" onclick="navigate('settings', this)"><i data-lucide="settings"></i><span>More</span></button>
+    </nav>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
